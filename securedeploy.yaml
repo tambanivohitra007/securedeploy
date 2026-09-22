@@ -1,0 +1,62 @@
+version: "1"
+
+project:
+  name: "clinicstaff.md-hq.com security assessment"
+
+target:
+  url: "https://clinicstaff.md-hq.com"
+  environment: production
+  scope:
+    include:
+      - "clinicstaff.md-hq.com"
+
+# No source code available — SAST and secret scanning are disabled
+testing:
+  source_code: false
+  secrets: false
+  dependencies: false
+  containers: false
+  tls: true        # TLS certificate validity and expiry
+  headers: true    # Security headers (HSTS, CSP, X-Frame-Options, etc.)
+  web: true        # HTTPS enforcement, CORS, cookie flags
+  api: true        # Nuclei safe DAST templates
+  custom_tests: false  # No test accounts available
+
+# Disable tools that require source code
+scanners:
+  trivy:
+    enabled: false
+  semgrep:
+    enabled: false
+  nuclei:
+    enabled: true
+    timeout: 1800   # CVE template scans need up to 30 minutes
+    # Safe read-only templates only — no fuzzing, exploits, or intrusive probes
+    exclude_tags:
+      - intrusive
+      - dos
+      - fuzzing
+      - exploit
+      - brute-force
+
+policy:
+  on_finding:
+    critical: block
+    high: block
+    medium: warn
+    low: report
+    informational: report
+  on_tool_failure: warn
+
+safety:
+  # Conservative rate limit — this is a production clinical portal
+  max_requests_per_second: 3
+  default_timeout: 300
+  production_acknowledgement: "I confirm written authorization to test clinicstaff.md-hq.com"
+
+output:
+  directory: "./securedeploy-reports"
+  formats:
+    - terminal
+    - sarif
+    - json

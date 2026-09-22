@@ -91,7 +91,8 @@ class NucleiAdapter(ScannerAdapter):
 
         self._tmp_dir = tempfile.mkdtemp(prefix="securedeploy-nuclei-")
         output_file = os.path.join(self._tmp_dir, "results.jsonl")
-        timeout = float(options.timeout or config.scanners.nuclei.timeout)
+        # Prefer Nuclei-specific timeout over the global default — CVE scans need more time
+        timeout = float(config.scanners.nuclei.timeout or options.timeout or 1800)
 
         # Determine tags for this profile
         nuclei_cfg = config.scanners.nuclei
@@ -129,12 +130,14 @@ class NucleiAdapter(ScannerAdapter):
                 )
             else:
                 from securedeploy.utils.docker import run_container
-                container_output = "/tmp/nuclei-results.jsonl"
+                # Persist templates across runs to avoid re-downloading every time
+                templates_dir = os.path.expanduser("~/.securedeploy/nuclei-templates")
+                os.makedirs(templates_dir, exist_ok=True)
                 docker_args = [
                     "-u", target_url,
                     "-tags", ",".join(tags),
                     "-etags", ",".join(exclude_tags),
-                    "-json-export", container_output,
+                    "-j",              # JSONL output to stdout (no file needed)
                     "-rate-limit", rate_limit,
                     "-silent",
                     "-no-color",
@@ -143,13 +146,12 @@ class NucleiAdapter(ScannerAdapter):
                 result = await run_container(
                     NUCLEI_DOCKER_IMAGE,
                     docker_args,
+                    volumes={templates_dir: "/root/nuclei-templates"},
                     timeout=timeout,
                 )
                 exit_code = result.exit_code
                 stdout = result.stdout
                 stderr = result.stderr
-                # Docker stdout may contain JSONL if -json-export went to stdout
-                # Fall through to parse output_file or stdout
 
         except asyncio.TimeoutError:
             return RawResult(
@@ -165,11 +167,11 @@ class NucleiAdapter(ScannerAdapter):
 
         duration = time.monotonic() - start
 
-        # Read the JSONL output file (native mode)
+        # Read results: file for native mode, stdout for Docker mode
         raw_output = ""
         if os.path.exists(output_file):
             raw_output = Path(output_file).read_text(encoding="utf-8")
-        elif stdout:
+        if not raw_output and stdout:
             raw_output = stdout
 
         return RawResult(

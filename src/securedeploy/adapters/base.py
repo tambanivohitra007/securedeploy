@@ -13,7 +13,7 @@ from typing import Any
 
 from securedeploy.config.models import Profile, ProjectConfig
 from securedeploy.core.cancel import CancelToken
-from securedeploy.findings.models import NormalizedFinding
+from securedeploy.findings.models import NormalizedFinding, ToolError
 
 
 class AvailabilityResult:
@@ -60,36 +60,6 @@ class RawResult:
     @property
     def succeeded(self) -> bool:
         return self.error is None
-
-
-class ToolError:
-    """A scanner tool failure — distinct from a security finding."""
-
-    TIMEOUT = "TIMEOUT"
-    CRASH = "CRASH"
-    UNAVAILABLE = "UNAVAILABLE"
-    PARSE_ERROR = "PARSE_ERROR"
-
-    def __init__(
-        self,
-        tool: str,
-        reason: str,
-        message: str,
-        stderr: str = "",
-        exit_code: int | None = None,
-        duration_seconds: float = 0.0,
-        tool_version: str | None = None,
-    ) -> None:
-        self.tool = tool
-        self.reason = reason
-        self.message = message
-        self.stderr = stderr
-        self.exit_code = exit_code
-        self.duration_seconds = duration_seconds
-        self.tool_version = tool_version
-
-    def __repr__(self) -> str:
-        return f"ToolError(tool={self.tool!r}, reason={self.reason!r})"
 
 
 class AdapterOptions:

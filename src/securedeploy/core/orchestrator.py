@@ -111,7 +111,10 @@ class Orchestrator:
 
         async def run_adapter(adapter: ScannerAdapter) -> tuple[str, RawResult]:
             async with semaphore:
-                timeout = float(self._config.safety.default_timeout)
+                # Use tool-specific timeout if configured, else global default
+                tool_cfg = getattr(self._config.scanners, adapter.tool_id, None)
+                tool_timeout = getattr(tool_cfg, "timeout", None)
+                timeout = float(tool_timeout or self._config.safety.default_timeout)
                 options = AdapterOptions(
                     scan_id=scan_id,
                     timeout=int(timeout),

@@ -102,7 +102,6 @@ def test_command(
     # Determine formats
     active_formats = config.output.formats
     if formats:
-        from securedeploy.config.models import OutputFormat
         try:
             active_formats = [OutputFormat(f.strip()) for f in formats.split(",")]
         except ValueError as e:

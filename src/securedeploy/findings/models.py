@@ -5,7 +5,7 @@ from __future__ import annotations
 import uuid
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any
+from typing import Any, ClassVar
 
 from pydantic import BaseModel, Field
 
@@ -239,6 +239,11 @@ class CorrelatedFinding(BaseModel):
 
 class ToolError(BaseModel):
     """Represents a scanner tool failure — distinct from a security finding."""
+
+    TIMEOUT: ClassVar[str] = "TIMEOUT"
+    CRASH: ClassVar[str] = "CRASH"
+    UNAVAILABLE: ClassVar[str] = "UNAVAILABLE"
+    PARSE_ERROR: ClassVar[str] = "PARSE_ERROR"
 
     tool: str
     tool_version: str | None = None
