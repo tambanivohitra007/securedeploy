@@ -216,4 +216,7 @@ def _write_report(fmt, result, output_dir, scan_meta) -> Path | None:
     if fmt == OutputFormat.JSON:
         from securedeploy.reporting.json_report import JsonReporter
         return JsonReporter().write(result, output_dir, scan_meta)
+    if fmt == OutputFormat.HTML:
+        from securedeploy.reporting.html_report import HtmlReporter
+        return HtmlReporter().write(result, output_dir, scan_meta)
     return None

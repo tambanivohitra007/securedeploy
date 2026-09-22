@@ -60,3 +60,4 @@ output:
     - terminal
     - sarif
     - json
+    - html
