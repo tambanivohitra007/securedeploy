@@ -1,0 +1,1067 @@
+{
+  "$schema": "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json",
+  "version": "2.1.0",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "builtin",
+          "informationUri": "https://github.com/securedeploy/securedeploy",
+          "version": "0.1.0",
+          "rules": [
+            {
+              "id": "missing-csp",
+              "name": "Missing Content-Security-Policy header",
+              "shortDescription": {
+                "text": "Missing Content-Security-Policy header"
+              },
+              "fullDescription": {
+                "text": "No Content-Security-Policy header is present. This increases XSS risk."
+              },
+              "helpUri": "https://content-security-policy.com/",
+              "properties": {
+                "tags": [],
+                "cwe": [
+                  "CWE-79"
+                ],
+                "precision": "high",
+                "problem.severity": "medium"
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              }
+            },
+            {
+              "id": "missing-hsts",
+              "name": "Missing HTTP Strict-Transport-Security header",
+              "shortDescription": {
+                "text": "Missing HTTP Strict-Transport-Security header"
+              },
+              "fullDescription": {
+                "text": "HSTS is not set. Browsers will not enforce HTTPS connections for this origin."
+              },
+              "helpUri": "https://owasp.org/www-project-secure-headers/",
+              "properties": {
+                "tags": [],
+                "cwe": [
+                  "CWE-319"
+                ],
+                "precision": "high",
+                "problem.severity": "medium"
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              }
+            },
+            {
+              "id": "missing-x-frame-options",
+              "name": "Missing X-Frame-Options or CSP frame-ancestors",
+              "shortDescription": {
+                "text": "Missing X-Frame-Options or CSP frame-ancestors"
+              },
+              "fullDescription": {
+                "text": "The application does not set X-Frame-Options or CSP frame-ancestors, enabling clickjacking."
+              },
+              "helpUri": "https://owasp.org/www-community/attacks/Clickjacking",
+              "properties": {
+                "tags": [],
+                "cwe": [
+                  "CWE-1021"
+                ],
+                "precision": "high",
+                "problem.severity": "medium"
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              }
+            },
+            {
+              "id": "missing-referrer-policy",
+              "name": "Missing Referrer-Policy header",
+              "shortDescription": {
+                "text": "Missing Referrer-Policy header"
+              },
+              "fullDescription": {
+                "text": "No Referrer-Policy is set. Sensitive URL parameters may leak to third parties."
+              },
+              "helpUri": "",
+              "properties": {
+                "tags": [],
+                "cwe": [
+                  "CWE-200"
+                ],
+                "precision": "high",
+                "problem.severity": "low"
+              },
+              "defaultConfiguration": {
+                "level": "note"
+              }
+            },
+            {
+              "id": "missing-x-content-type-options",
+              "name": "Missing X-Content-Type-Options header",
+              "shortDescription": {
+                "text": "Missing X-Content-Type-Options header"
+              },
+              "fullDescription": {
+                "text": "X-Content-Type-Options: nosniff is not set, enabling MIME-type sniffing attacks."
+              },
+              "helpUri": "",
+              "properties": {
+                "tags": [],
+                "cwe": [
+                  "CWE-16"
+                ],
+                "precision": "high",
+                "problem.severity": "low"
+              },
+              "defaultConfiguration": {
+                "level": "note"
+              }
+            },
+            {
+              "id": "x-powered-by-disclosed",
+              "name": "X-Powered-By header discloses technology stack",
+              "shortDescription": {
+                "text": "X-Powered-By header discloses technology stack"
+              },
+              "fullDescription": {
+                "text": "X-Powered-By: PHP/8.4.24 reveals implementation details."
+              },
+              "helpUri": "",
+              "properties": {
+                "tags": [],
+                "cwe": [
+                  "CWE-200"
+                ],
+                "precision": "high",
+                "problem.severity": "low"
+              },
+              "defaultConfiguration": {
+                "level": "note"
+              }
+            },
+            {
+              "id": "missing-permissions-policy",
+              "name": "Missing Permissions-Policy header",
+              "shortDescription": {
+                "text": "Missing Permissions-Policy header"
+              },
+              "fullDescription": {
+                "text": "No Permissions-Policy header restricts access to browser features."
+              },
+              "helpUri": "",
+              "properties": {
+                "tags": [],
+                "cwe": [
+                  "CWE-16"
+                ],
+                "precision": "high",
+                "problem.severity": "informational"
+              },
+              "defaultConfiguration": {
+                "level": "none"
+              }
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "missing-csp",
+          "level": "warning",
+          "message": {
+            "text": "No Content-Security-Policy header is present. This increases XSS risk."
+          },
+          "fingerprints": {
+            "securedeploy/v1": "v1:sha256:aec0a4061e0ea35f99180e81fd643ab085b5ba82641c3b28e54cb8ad5fea3e1b"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "https://clinicstaff.md-hq.com"
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "description": {
+                "text": "Implement a Content-Security-Policy. Start with a report-only policy."
+              }
+            }
+          ],
+          "properties": {
+            "severity": "medium",
+            "confidence": "high",
+            "cwe": [
+              "CWE-79"
+            ],
+            "owasp": [],
+            "sourceTools": [
+              "builtin"
+            ]
+          }
+        },
+        {
+          "ruleId": "missing-hsts",
+          "level": "warning",
+          "message": {
+            "text": "HSTS is not set. Browsers will not enforce HTTPS connections for this origin."
+          },
+          "fingerprints": {
+            "securedeploy/v1": "v1:sha256:8acab81f408089e69539243d72c64503096fa1fe281a867732227413bb4986db"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "https://clinicstaff.md-hq.com"
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "description": {
+                "text": "Add: Strict-Transport-Security: max-age=31536000; includeSubDomains"
+              }
+            }
+          ],
+          "properties": {
+            "severity": "medium",
+            "confidence": "high",
+            "cwe": [
+              "CWE-319"
+            ],
+            "owasp": [],
+            "sourceTools": [
+              "builtin"
+            ]
+          }
+        },
+        {
+          "ruleId": "missing-x-frame-options",
+          "level": "warning",
+          "message": {
+            "text": "The application does not set X-Frame-Options or CSP frame-ancestors, enabling clickjacking."
+          },
+          "fingerprints": {
+            "securedeploy/v1": "v1:sha256:cbebc0d94b1c9269a2ced8e5d0f1a40c51ee9efcb660d07a70a4d91640a6aba9"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "https://clinicstaff.md-hq.com"
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "description": {
+                "text": "Add X-Frame-Options: DENY or Content-Security-Policy: frame-ancestors 'none'"
+              }
+            }
+          ],
+          "properties": {
+            "severity": "medium",
+            "confidence": "high",
+            "cwe": [
+              "CWE-1021"
+            ],
+            "owasp": [],
+            "sourceTools": [
+              "builtin"
+            ]
+          }
+        },
+        {
+          "ruleId": "missing-referrer-policy",
+          "level": "note",
+          "message": {
+            "text": "No Referrer-Policy is set. Sensitive URL parameters may leak to third parties."
+          },
+          "fingerprints": {
+            "securedeploy/v1": "v1:sha256:5a439bf380dcc1fa39429d64a0e5fd9be9d161df6f1d831f2fcfaf11f7526f96"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "https://clinicstaff.md-hq.com"
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "description": {
+                "text": "Add: Referrer-Policy: strict-origin-when-cross-origin"
+              }
+            }
+          ],
+          "properties": {
+            "severity": "low",
+            "confidence": "high",
+            "cwe": [
+              "CWE-200"
+            ],
+            "owasp": [],
+            "sourceTools": [
+              "builtin"
+            ]
+          }
+        },
+        {
+          "ruleId": "missing-x-content-type-options",
+          "level": "note",
+          "message": {
+            "text": "X-Content-Type-Options: nosniff is not set, enabling MIME-type sniffing attacks."
+          },
+          "fingerprints": {
+            "securedeploy/v1": "v1:sha256:9a6af7a8cfaae1c2b7875c4c2ae2f3777ed5c0f39b0aa2dff68d94c4f106d470"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "https://clinicstaff.md-hq.com"
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "description": {
+                "text": "Add: X-Content-Type-Options: nosniff"
+              }
+            }
+          ],
+          "properties": {
+            "severity": "low",
+            "confidence": "high",
+            "cwe": [
+              "CWE-16"
+            ],
+            "owasp": [],
+            "sourceTools": [
+              "builtin"
+            ]
+          }
+        },
+        {
+          "ruleId": "x-powered-by-disclosed",
+          "level": "note",
+          "message": {
+            "text": "X-Powered-By: PHP/8.4.24 reveals implementation details."
+          },
+          "fingerprints": {
+            "securedeploy/v1": "v1:sha256:58aa24b2837c9e007cfa54ba28176e13168b25980de8300e3b102672533221e1"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "https://clinicstaff.md-hq.com"
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "description": {
+                "text": "Remove or suppress the X-Powered-By header."
+              }
+            }
+          ],
+          "properties": {
+            "severity": "low",
+            "confidence": "high",
+            "cwe": [
+              "CWE-200"
+            ],
+            "owasp": [],
+            "sourceTools": [
+              "builtin"
+            ]
+          }
+        },
+        {
+          "ruleId": "missing-permissions-policy",
+          "level": "none",
+          "message": {
+            "text": "No Permissions-Policy header restricts access to browser features."
+          },
+          "fingerprints": {
+            "securedeploy/v1": "v1:sha256:f8f04d6a948f002efd44c25a630a62a806e0b71980eacaafbe084b7d02ec8099"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "https://clinicstaff.md-hq.com"
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "description": {
+                "text": "Add a Permissions-Policy header to restrict browser features (camera, microphone, etc.)"
+              }
+            }
+          ],
+          "properties": {
+            "severity": "informational",
+            "confidence": "high",
+            "cwe": [
+              "CWE-16"
+            ],
+            "owasp": [],
+            "sourceTools": [
+              "builtin"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "tool": {
+        "driver": {
+          "name": "nuclei",
+          "informationUri": "https://github.com/securedeploy/securedeploy",
+          "version": "0.1.0",
+          "rules": [
+            {
+              "id": "browserconfig-xml",
+              "name": "Browser Configuration \"browserconfig.xml\" Exposure",
+              "shortDescription": {
+                "text": "Browser Configuration \"browserconfig.xml\" Exposure"
+              },
+              "fullDescription": {
+                "text": "Browser Configuration \"browserconfig.xml\" File was exposed.\n"
+              },
+              "helpUri": "https://www.sygnal.com/lessons/browserconfig-xml",
+              "properties": {
+                "tags": [
+                  "browserconfig",
+                  "misconfig",
+                  "vuln"
+                ],
+                "cwe": [],
+                "precision": "high",
+                "problem.severity": "informational"
+              },
+              "defaultConfiguration": {
+                "level": "none"
+              }
+            },
+            {
+              "id": "ssl-issuer",
+              "name": "Detect SSL Certificate Issuer",
+              "shortDescription": {
+                "text": "Detect SSL Certificate Issuer"
+              },
+              "fullDescription": {
+                "text": "Extract the issuer's organization from the target's certificate. Issuers are entities which sign and distribute certificates.\n"
+              },
+              "helpUri": "",
+              "properties": {
+                "tags": [
+                  "ssl",
+                  "tls",
+                  "discovery"
+                ],
+                "cwe": [],
+                "precision": "high",
+                "problem.severity": "informational"
+              },
+              "defaultConfiguration": {
+                "level": "none"
+              }
+            },
+            {
+              "id": "http-missing-security-headers",
+              "name": "HTTP Missing Security Headers",
+              "shortDescription": {
+                "text": "HTTP Missing Security Headers"
+              },
+              "fullDescription": {
+                "text": "This template searches for missing HTTP security headers. The impact of these missing headers can vary.\n"
+              },
+              "helpUri": "",
+              "properties": {
+                "tags": [
+                  "misconfig",
+                  "headers",
+                  "generic",
+                  "vuln"
+                ],
+                "cwe": [
+                  "cwe-693"
+                ],
+                "precision": "high",
+                "problem.severity": "informational"
+              },
+              "defaultConfiguration": {
+                "level": "none"
+              }
+            },
+            {
+              "id": "inertiajs-detect",
+              "name": "Inertia.js - Detect",
+              "shortDescription": {
+                "text": "Inertia.js - Detect"
+              },
+              "fullDescription": {
+                "text": "Detected Inertia.js passively using a single plain GET request with no special headers. It matched four server-emitted Inertia-specific signals on the initial document: three proximity-bound body patterns covering the embedded page object formats and one `Vary: X-Inertia` response header signal set by supported middleware adapters.\n"
+              },
+              "helpUri": "https://inertiajs.com/",
+              "properties": {
+                "tags": [
+                  "tech",
+                  "inertiajs",
+                  "inertia"
+                ],
+                "cwe": [],
+                "precision": "high",
+                "problem.severity": "informational"
+              },
+              "defaultConfiguration": {
+                "level": "none"
+              }
+            },
+            {
+              "id": "missing-cookie-samesite-strict",
+              "name": "Missing Cookie SameSite Strict",
+              "shortDescription": {
+                "text": "Missing Cookie SameSite Strict"
+              },
+              "fullDescription": {
+                "text": "Identified cookies that lacked the samesite=strict attribute, which prevented enforcement of restrictions on cross-domain cookie transmission.\n"
+              },
+              "helpUri": "https://pulsesecurity.co.nz/articles/samesite-lax-csrf",
+              "properties": {
+                "tags": [
+                  "misconfig",
+                  "samesite",
+                  "cookie",
+                  "vuln"
+                ],
+                "cwe": [
+                  "cwe-693"
+                ],
+                "precision": "high",
+                "problem.severity": "informational"
+              },
+              "defaultConfiguration": {
+                "level": "none"
+              }
+            },
+            {
+              "id": "missing-sri",
+              "name": "Missing Subresource Integrity",
+              "shortDescription": {
+                "text": "Missing Subresource Integrity"
+              },
+              "fullDescription": {
+                "text": "Checks if external script and stylesheet tags in the HTML response are missing the Subresource Integrity (SRI) attribute.\n"
+              },
+              "helpUri": "https://cheatsheetseries.owasp.org/cheatsheets/Third_Party_Javascript_Management_Cheat_Sheet.html#subresource-integrity",
+              "properties": {
+                "tags": [
+                  "compliance",
+                  "js",
+                  "css",
+                  "sri",
+                  "misconfig",
+                  "vuln"
+                ],
+                "cwe": [
+                  "cwe-353"
+                ],
+                "precision": "high",
+                "problem.severity": "informational"
+              },
+              "defaultConfiguration": {
+                "level": "none"
+              }
+            },
+            {
+              "id": "ssl-dns-names",
+              "name": "SSL DNS Names",
+              "shortDescription": {
+                "text": "SSL DNS Names"
+              },
+              "fullDescription": {
+                "text": "Extract the Subject Alternative Name (SAN) from the target's certificate. SAN facilitates the usage of additional hostnames with the same certificate.\n"
+              },
+              "helpUri": "",
+              "properties": {
+                "tags": [
+                  "ssl",
+                  "tls",
+                  "vuln"
+                ],
+                "cwe": [],
+                "precision": "high",
+                "problem.severity": "informational"
+              },
+              "defaultConfiguration": {
+                "level": "none"
+              }
+            },
+            {
+              "id": "tls-version",
+              "name": "TLS Version - Detect",
+              "shortDescription": {
+                "text": "TLS Version - Detect"
+              },
+              "fullDescription": {
+                "text": "TLS version detection is a security process used to determine the version of the Transport Layer Security (TLS) protocol used by a computer or server.\nIt is important to detect the TLS version in order to ensure secure communication between two computers or servers.\n"
+              },
+              "helpUri": "",
+              "properties": {
+                "tags": [
+                  "ssl",
+                  "tls",
+                  "discovery"
+                ],
+                "cwe": [],
+                "precision": "high",
+                "problem.severity": "informational"
+              },
+              "defaultConfiguration": {
+                "level": "none"
+              }
+            },
+            {
+              "id": "waf-detect",
+              "name": "WAF Detection",
+              "shortDescription": {
+                "text": "WAF Detection"
+              },
+              "fullDescription": {
+                "text": "A web application firewall was detected."
+              },
+              "helpUri": "https://github.com/Ekultek/WhatWaf",
+              "properties": {
+                "tags": [
+                  "waf",
+                  "tech",
+                  "misc",
+                  "discovery"
+                ],
+                "cwe": [
+                  "cwe-200"
+                ],
+                "precision": "high",
+                "problem.severity": "informational"
+              },
+              "defaultConfiguration": {
+                "level": "none"
+              }
+            },
+            {
+              "id": "tech-detect",
+              "name": "Wappalyzer Technology Detection",
+              "shortDescription": {
+                "text": "Wappalyzer Technology Detection"
+              },
+              "fullDescription": {
+                "text": "Wappalyzer Technology Detection"
+              },
+              "helpUri": "",
+              "properties": {
+                "tags": [
+                  "tech",
+                  "discovery"
+                ],
+                "cwe": [],
+                "precision": "high",
+                "problem.severity": "informational"
+              },
+              "defaultConfiguration": {
+                "level": "none"
+              }
+            },
+            {
+              "id": "wildcard-tls",
+              "name": "Wildcard TLS Certificate",
+              "shortDescription": {
+                "text": "Wildcard TLS Certificate"
+              },
+              "fullDescription": {
+                "text": "Checks a sites certificate to see if there are wildcard CN or SAN entries.\n"
+              },
+              "helpUri": "https://cheatsheetseries.owasp.org/cheatsheets/Transport_Layer_Security_Cheat_Sheet.html#carefully-consider-the-use-of-wildcard-certificates",
+              "properties": {
+                "tags": [
+                  "ssl",
+                  "tls",
+                  "wildcard",
+                  "vuln"
+                ],
+                "cwe": [],
+                "precision": "high",
+                "problem.severity": "informational"
+              },
+              "defaultConfiguration": {
+                "level": "none"
+              }
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "browserconfig-xml",
+          "level": "none",
+          "message": {
+            "text": "Browser Configuration \"browserconfig.xml\" File was exposed.\n"
+          },
+          "fingerprints": {
+            "securedeploy/v1": "v1:sha256:ae4b9f11cd063358440bbcc71172490236c99a889a7297ca29d39965236a67ad"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "https://clinicstaff.md-hq.com/browserconfig.xml"
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "informational",
+            "confidence": "medium",
+            "cwe": [],
+            "owasp": [],
+            "sourceTools": [
+              "nuclei"
+            ]
+          }
+        },
+        {
+          "ruleId": "ssl-issuer",
+          "level": "none",
+          "message": {
+            "text": "Extract the issuer's organization from the target's certificate. Issuers are entities which sign and distribute certificates.\n"
+          },
+          "fingerprints": {
+            "securedeploy/v1": "v1:sha256:01fd7082e2f53e781d5a201f9a1db54599c50013eb137345e1995f7282fe18d4"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "clinicstaff.md-hq.com:443"
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "informational",
+            "confidence": "medium",
+            "cwe": [],
+            "owasp": [],
+            "sourceTools": [
+              "nuclei"
+            ]
+          }
+        },
+        {
+          "ruleId": "http-missing-security-headers",
+          "level": "none",
+          "message": {
+            "text": "This template searches for missing HTTP security headers. The impact of these missing headers can vary.\n"
+          },
+          "fingerprints": {
+            "securedeploy/v1": "v1:sha256:55aeba728240fff2ebc96dcb58ed6781807f506184a16dcddb921f963531d31e"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "https://clinicstaff.md-hq.com/calendar.php"
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "informational",
+            "confidence": "medium",
+            "cwe": [
+              "cwe-693"
+            ],
+            "owasp": [],
+            "sourceTools": [
+              "nuclei"
+            ]
+          }
+        },
+        {
+          "ruleId": "inertiajs-detect",
+          "level": "none",
+          "message": {
+            "text": "Detected Inertia.js passively using a single plain GET request with no special headers. It matched four server-emitted Inertia-specific signals on the initial document: three proximity-bound body patterns covering the embedded page object formats and one `Vary: X-Inertia` response header signal set by supported middleware adapters.\n"
+          },
+          "fingerprints": {
+            "securedeploy/v1": "v1:sha256:e701305b401fb7d2b355b06e6ba5c42a36ed0f7ed048b2858c56b54a55a65e24"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "https://clinicstaff.md-hq.com"
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "informational",
+            "confidence": "medium",
+            "cwe": [],
+            "owasp": [],
+            "sourceTools": [
+              "nuclei"
+            ]
+          }
+        },
+        {
+          "ruleId": "missing-cookie-samesite-strict",
+          "level": "none",
+          "message": {
+            "text": "Identified cookies that lacked the samesite=strict attribute, which prevented enforcement of restrictions on cross-domain cookie transmission.\n"
+          },
+          "fingerprints": {
+            "securedeploy/v1": "v1:sha256:832ceb7554b79f881940a5f0308b4d10d1b4b5aa06cb31f65eeec935f269f54b"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "https://clinicstaff.md-hq.com/calendar.php"
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "informational",
+            "confidence": "medium",
+            "cwe": [
+              "cwe-693"
+            ],
+            "owasp": [],
+            "sourceTools": [
+              "nuclei"
+            ]
+          }
+        },
+        {
+          "ruleId": "missing-sri",
+          "level": "none",
+          "message": {
+            "text": "Checks if external script and stylesheet tags in the HTML response are missing the Subresource Integrity (SRI) attribute.\n"
+          },
+          "fingerprints": {
+            "securedeploy/v1": "v1:sha256:cea220bb4af890a917ebf0a727cdce6c198c24741f7a13fc06ab270743c4a27e"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "https://clinicstaff.md-hq.com/calendar.php"
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "informational",
+            "confidence": "medium",
+            "cwe": [
+              "cwe-353"
+            ],
+            "owasp": [],
+            "sourceTools": [
+              "nuclei"
+            ]
+          }
+        },
+        {
+          "ruleId": "ssl-dns-names",
+          "level": "none",
+          "message": {
+            "text": "Extract the Subject Alternative Name (SAN) from the target's certificate. SAN facilitates the usage of additional hostnames with the same certificate.\n"
+          },
+          "fingerprints": {
+            "securedeploy/v1": "v1:sha256:35b4bf6926d4a093b8eebb19e4a4ccbce7795d0c843c0df677ed51dabf1c072e"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "clinicstaff.md-hq.com:443"
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "informational",
+            "confidence": "medium",
+            "cwe": [],
+            "owasp": [],
+            "sourceTools": [
+              "nuclei"
+            ]
+          }
+        },
+        {
+          "ruleId": "tls-version",
+          "level": "none",
+          "message": {
+            "text": "TLS version detection is a security process used to determine the version of the Transport Layer Security (TLS) protocol used by a computer or server.\nIt is important to detect the TLS version in order to ensure secure communication between two computers or servers.\n"
+          },
+          "fingerprints": {
+            "securedeploy/v1": "v1:sha256:2d618371caef141e2623d67861d5b6adef51751b58e9fe19a89c91701e5be818"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "clinicstaff.md-hq.com:443"
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "informational",
+            "confidence": "medium",
+            "cwe": [],
+            "owasp": [],
+            "sourceTools": [
+              "nuclei"
+            ]
+          }
+        },
+        {
+          "ruleId": "waf-detect",
+          "level": "none",
+          "message": {
+            "text": "A web application firewall was detected."
+          },
+          "fingerprints": {
+            "securedeploy/v1": "v1:sha256:26a957b01a5e2ca6b33b4ec5b7be5f85c5b380e4b12933b852654836c163e720"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "https://clinicstaff.md-hq.com"
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "informational",
+            "confidence": "medium",
+            "cwe": [
+              "cwe-200"
+            ],
+            "owasp": [],
+            "sourceTools": [
+              "nuclei"
+            ]
+          }
+        },
+        {
+          "ruleId": "tech-detect",
+          "level": "none",
+          "message": {
+            "text": "Wappalyzer Technology Detection"
+          },
+          "fingerprints": {
+            "securedeploy/v1": "v1:sha256:df5188c7c8f7608c368fa8ee5eb78f7888380ca8fc59e0f763b05470b236a3a8"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "https://clinicstaff.md-hq.com/calendar.php"
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "informational",
+            "confidence": "medium",
+            "cwe": [],
+            "owasp": [],
+            "sourceTools": [
+              "nuclei"
+            ]
+          }
+        },
+        {
+          "ruleId": "tech-detect",
+          "level": "none",
+          "message": {
+            "text": "Wappalyzer Technology Detection"
+          },
+          "fingerprints": {
+            "securedeploy/v1": "v1:sha256:52936a3441050979bc3f95304b8b11a226e5a2c6a3ad5fd06a918638579911bf"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "https://clinicstaff.md-hq.com"
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "informational",
+            "confidence": "medium",
+            "cwe": [],
+            "owasp": [],
+            "sourceTools": [
+              "nuclei"
+            ]
+          }
+        },
+        {
+          "ruleId": "wildcard-tls",
+          "level": "none",
+          "message": {
+            "text": "Checks a sites certificate to see if there are wildcard CN or SAN entries.\n"
+          },
+          "fingerprints": {
+            "securedeploy/v1": "v1:sha256:7b4623e68f517675862a3efc55dbfac65b48dc0e995b5c355d215d9f8e74fb0a"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "clinicstaff.md-hq.com:443"
+                }
+              }
+            }
+          ],
+          "properties": {
+            "severity": "informational",
+            "confidence": "medium",
+            "cwe": [],
+            "owasp": [],
+            "sourceTools": [
+              "nuclei"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

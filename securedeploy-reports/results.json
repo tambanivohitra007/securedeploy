@@ -1,0 +1,748 @@
+{
+  "securedeploy_version": "0.1.0",
+  "scan_id": "4c028c4f",
+  "generated_at": "2026-09-22T20:16:12.276870+00:00",
+  "project": "clinicstaff.md-hq.com security assessment",
+  "target": "https://clinicstaff.md-hq.com",
+  "profile": "standard",
+  "verdict": "PASS",
+  "block_reasons": [],
+  "disclaimer": "PASS means the application passed the configured security policy. It does not guarantee the absence of all security vulnerabilities.",
+  "summary": {
+    "counts": {
+      "critical": 0,
+      "high": 0,
+      "medium": 3,
+      "low": 3,
+      "informational": 13
+    },
+    "tool_errors": 0
+  },
+  "findings": [
+    {
+      "finding_id": "corr-06090d49-3e2f-48df-800c-a3d18f7df2f4",
+      "fingerprint": "v1:sha256:aec0a4061e0ea35f99180e81fd643ab085b5ba82641c3b28e54cb8ad5fea3e1b",
+      "title": "Missing Content-Security-Policy header",
+      "severity": "medium",
+      "confidence": "high",
+      "category": "HTTP Security Headers",
+      "subcategory": null,
+      "owasp_top10": [],
+      "owasp_api_top10": [],
+      "cwe": [
+        "CWE-79"
+      ],
+      "cve": null,
+      "cvss_score": null,
+      "source_tools": [
+        "builtin"
+      ],
+      "location": {
+        "type": "web",
+        "url": "https://clinicstaff.md-hq.com",
+        "endpoint": "/",
+        "method": "GET",
+        "source_file": null,
+        "line": null,
+        "package_name": null,
+        "package_version": null
+      },
+      "description": "No Content-Security-Policy header is present. This increases XSS risk.",
+      "remediation": "Implement a Content-Security-Policy. Start with a report-only policy.",
+      "references": [
+        "https://content-security-policy.com/"
+      ],
+      "disposition": "warn",
+      "first_detected": "2026-09-22T20:09:04.627707+00:00",
+      "tags": []
+    },
+    {
+      "finding_id": "corr-53609d1e-7442-40c3-8b96-7620aea36cf9",
+      "fingerprint": "v1:sha256:8acab81f408089e69539243d72c64503096fa1fe281a867732227413bb4986db",
+      "title": "Missing HTTP Strict-Transport-Security header",
+      "severity": "medium",
+      "confidence": "high",
+      "category": "HTTP Security Headers",
+      "subcategory": null,
+      "owasp_top10": [],
+      "owasp_api_top10": [],
+      "cwe": [
+        "CWE-319"
+      ],
+      "cve": null,
+      "cvss_score": null,
+      "source_tools": [
+        "builtin"
+      ],
+      "location": {
+        "type": "web",
+        "url": "https://clinicstaff.md-hq.com",
+        "endpoint": "/",
+        "method": "GET",
+        "source_file": null,
+        "line": null,
+        "package_name": null,
+        "package_version": null
+      },
+      "description": "HSTS is not set. Browsers will not enforce HTTPS connections for this origin.",
+      "remediation": "Add: Strict-Transport-Security: max-age=31536000; includeSubDomains",
+      "references": [
+        "https://owasp.org/www-project-secure-headers/"
+      ],
+      "disposition": "warn",
+      "first_detected": "2026-09-22T20:09:04.627567+00:00",
+      "tags": []
+    },
+    {
+      "finding_id": "corr-dbf53c6b-109e-41bf-bbfc-bb4a5dd8d55e",
+      "fingerprint": "v1:sha256:cbebc0d94b1c9269a2ced8e5d0f1a40c51ee9efcb660d07a70a4d91640a6aba9",
+      "title": "Missing X-Frame-Options or CSP frame-ancestors",
+      "severity": "medium",
+      "confidence": "high",
+      "category": "HTTP Security Headers",
+      "subcategory": null,
+      "owasp_top10": [],
+      "owasp_api_top10": [],
+      "cwe": [
+        "CWE-1021"
+      ],
+      "cve": null,
+      "cvss_score": null,
+      "source_tools": [
+        "builtin"
+      ],
+      "location": {
+        "type": "web",
+        "url": "https://clinicstaff.md-hq.com",
+        "endpoint": "/",
+        "method": "GET",
+        "source_file": null,
+        "line": null,
+        "package_name": null,
+        "package_version": null
+      },
+      "description": "The application does not set X-Frame-Options or CSP frame-ancestors, enabling clickjacking.",
+      "remediation": "Add X-Frame-Options: DENY or Content-Security-Policy: frame-ancestors 'none'",
+      "references": [
+        "https://owasp.org/www-community/attacks/Clickjacking"
+      ],
+      "disposition": "warn",
+      "first_detected": "2026-09-22T20:09:04.627677+00:00",
+      "tags": []
+    },
+    {
+      "finding_id": "corr-21d97351-a140-4a31-8f11-71d928d213ee",
+      "fingerprint": "v1:sha256:5a439bf380dcc1fa39429d64a0e5fd9be9d161df6f1d831f2fcfaf11f7526f96",
+      "title": "Missing Referrer-Policy header",
+      "severity": "low",
+      "confidence": "high",
+      "category": "HTTP Security Headers",
+      "subcategory": null,
+      "owasp_top10": [],
+      "owasp_api_top10": [],
+      "cwe": [
+        "CWE-200"
+      ],
+      "cve": null,
+      "cvss_score": null,
+      "source_tools": [
+        "builtin"
+      ],
+      "location": {
+        "type": "web",
+        "url": "https://clinicstaff.md-hq.com",
+        "endpoint": "/",
+        "method": "GET",
+        "source_file": null,
+        "line": null,
+        "package_name": null,
+        "package_version": null
+      },
+      "description": "No Referrer-Policy is set. Sensitive URL parameters may leak to third parties.",
+      "remediation": "Add: Referrer-Policy: strict-origin-when-cross-origin",
+      "references": [],
+      "disposition": "report",
+      "first_detected": "2026-09-22T20:09:04.627737+00:00",
+      "tags": []
+    },
+    {
+      "finding_id": "corr-4be4c8b7-63ee-4f2c-8ad9-91a60dd47fe4",
+      "fingerprint": "v1:sha256:9a6af7a8cfaae1c2b7875c4c2ae2f3777ed5c0f39b0aa2dff68d94c4f106d470",
+      "title": "Missing X-Content-Type-Options header",
+      "severity": "low",
+      "confidence": "high",
+      "category": "HTTP Security Headers",
+      "subcategory": null,
+      "owasp_top10": [],
+      "owasp_api_top10": [],
+      "cwe": [
+        "CWE-16"
+      ],
+      "cve": null,
+      "cvss_score": null,
+      "source_tools": [
+        "builtin"
+      ],
+      "location": {
+        "type": "web",
+        "url": "https://clinicstaff.md-hq.com",
+        "endpoint": "/",
+        "method": "GET",
+        "source_file": null,
+        "line": null,
+        "package_name": null,
+        "package_version": null
+      },
+      "description": "X-Content-Type-Options: nosniff is not set, enabling MIME-type sniffing attacks.",
+      "remediation": "Add: X-Content-Type-Options: nosniff",
+      "references": [],
+      "disposition": "report",
+      "first_detected": "2026-09-22T20:09:04.627641+00:00",
+      "tags": []
+    },
+    {
+      "finding_id": "corr-0d07b323-34b5-4e83-8a89-3ae7e5ad1ced",
+      "fingerprint": "v1:sha256:58aa24b2837c9e007cfa54ba28176e13168b25980de8300e3b102672533221e1",
+      "title": "X-Powered-By header discloses technology stack",
+      "severity": "low",
+      "confidence": "high",
+      "category": "HTTP Security Headers",
+      "subcategory": null,
+      "owasp_top10": [],
+      "owasp_api_top10": [],
+      "cwe": [
+        "CWE-200"
+      ],
+      "cve": null,
+      "cvss_score": null,
+      "source_tools": [
+        "builtin"
+      ],
+      "location": {
+        "type": "web",
+        "url": "https://clinicstaff.md-hq.com",
+        "endpoint": "/",
+        "method": "GET",
+        "source_file": null,
+        "line": null,
+        "package_name": null,
+        "package_version": null
+      },
+      "description": "X-Powered-By: PHP/8.4.24 reveals implementation details.",
+      "remediation": "Remove or suppress the X-Powered-By header.",
+      "references": [],
+      "disposition": "report",
+      "first_detected": "2026-09-22T20:09:04.627805+00:00",
+      "tags": []
+    },
+    {
+      "finding_id": "corr-82152eeb-49fe-4569-8830-2ca385e3fbf6",
+      "fingerprint": "v1:sha256:ae4b9f11cd063358440bbcc71172490236c99a889a7297ca29d39965236a67ad",
+      "title": "Browser Configuration \"browserconfig.xml\" Exposure",
+      "severity": "informational",
+      "confidence": "medium",
+      "category": "Security Misconfiguration",
+      "subcategory": null,
+      "owasp_top10": [],
+      "owasp_api_top10": [],
+      "cwe": [],
+      "cve": null,
+      "cvss_score": null,
+      "source_tools": [
+        "nuclei"
+      ],
+      "location": {
+        "type": "web",
+        "url": "https://clinicstaff.md-hq.com/browserconfig.xml",
+        "endpoint": "/browserconfig.xml",
+        "method": "GET",
+        "source_file": null,
+        "line": null,
+        "package_name": null,
+        "package_version": null
+      },
+      "description": "Browser Configuration \"browserconfig.xml\" File was exposed.\n",
+      "remediation": "",
+      "references": [
+        "https://www.sygnal.com/lessons/browserconfig-xml"
+      ],
+      "disposition": "report",
+      "first_detected": "2026-09-22T20:16:12.272641+00:00",
+      "tags": [
+        "browserconfig",
+        "misconfig",
+        "vuln"
+      ]
+    },
+    {
+      "finding_id": "corr-0b7b1544-3d7a-4859-899a-782a264fee67",
+      "fingerprint": "v1:sha256:01fd7082e2f53e781d5a201f9a1db54599c50013eb137345e1995f7282fe18d4",
+      "title": "Detect SSL Certificate Issuer",
+      "severity": "informational",
+      "confidence": "medium",
+      "category": "TLS/SSL Configuration",
+      "subcategory": null,
+      "owasp_top10": [],
+      "owasp_api_top10": [],
+      "cwe": [],
+      "cve": null,
+      "cvss_score": null,
+      "source_tools": [
+        "nuclei"
+      ],
+      "location": {
+        "type": "tls",
+        "url": "clinicstaff.md-hq.com:443",
+        "endpoint": "443",
+        "method": "GET",
+        "source_file": null,
+        "line": null,
+        "package_name": null,
+        "package_version": null
+      },
+      "description": "Extract the issuer's organization from the target's certificate. Issuers are entities which sign and distribute certificates.\n",
+      "remediation": "",
+      "references": [],
+      "disposition": "report",
+      "first_detected": "2026-09-22T20:16:12.272690+00:00",
+      "tags": [
+        "ssl",
+        "tls",
+        "discovery"
+      ]
+    },
+    {
+      "finding_id": "corr-2ae32350-61b2-47e1-9531-366518ef284d",
+      "fingerprint": "v1:sha256:55aeba728240fff2ebc96dcb58ed6781807f506184a16dcddb921f963531d31e",
+      "title": "HTTP Missing Security Headers",
+      "severity": "informational",
+      "confidence": "medium",
+      "category": "HTTP Security Headers",
+      "subcategory": null,
+      "owasp_top10": [],
+      "owasp_api_top10": [],
+      "cwe": [
+        "cwe-693"
+      ],
+      "cve": null,
+      "cvss_score": null,
+      "source_tools": [
+        "nuclei"
+      ],
+      "location": {
+        "type": "web",
+        "url": "https://clinicstaff.md-hq.com/calendar.php",
+        "endpoint": "/calendar.php",
+        "method": "GET",
+        "source_file": null,
+        "line": null,
+        "package_name": null,
+        "package_version": null
+      },
+      "description": "This template searches for missing HTTP security headers. The impact of these missing headers can vary.\n",
+      "remediation": "",
+      "references": [],
+      "disposition": "report",
+      "first_detected": "2026-09-22T20:16:12.271416+00:00",
+      "tags": [
+        "misconfig",
+        "headers",
+        "generic",
+        "vuln"
+      ]
+    },
+    {
+      "finding_id": "corr-521f77b5-1651-4027-884f-10b3ac201f92",
+      "fingerprint": "v1:sha256:e701305b401fb7d2b355b06e6ba5c42a36ed0f7ed048b2858c56b54a55a65e24",
+      "title": "Inertia.js - Detect",
+      "severity": "informational",
+      "confidence": "medium",
+      "category": "Security Vulnerability",
+      "subcategory": null,
+      "owasp_top10": [],
+      "owasp_api_top10": [],
+      "cwe": [],
+      "cve": null,
+      "cvss_score": null,
+      "source_tools": [
+        "nuclei"
+      ],
+      "location": {
+        "type": "web",
+        "url": "https://clinicstaff.md-hq.com",
+        "endpoint": "/",
+        "method": "GET",
+        "source_file": null,
+        "line": null,
+        "package_name": null,
+        "package_version": null
+      },
+      "description": "Detected Inertia.js passively using a single plain GET request with no special headers. It matched four server-emitted Inertia-specific signals on the initial document: three proximity-bound body patterns covering the embedded page object formats and one `Vary: X-Inertia` response header signal set by supported middleware adapters.\n",
+      "remediation": "",
+      "references": [
+        "https://inertiajs.com/",
+        "https://inertiajs.com/the-protocol",
+        "https://github.com/inertiajs/inertia",
+        "https://github.com/inertiajs/inertia-laravel"
+      ],
+      "disposition": "report",
+      "first_detected": "2026-09-22T20:16:12.272375+00:00",
+      "tags": [
+        "tech",
+        "inertiajs",
+        "inertia"
+      ]
+    },
+    {
+      "finding_id": "corr-32e86b86-f85f-4e70-b0b3-78778bcf200c",
+      "fingerprint": "v1:sha256:832ceb7554b79f881940a5f0308b4d10d1b4b5aa06cb31f65eeec935f269f54b",
+      "title": "Missing Cookie SameSite Strict",
+      "severity": "informational",
+      "confidence": "medium",
+      "category": "Security Misconfiguration",
+      "subcategory": null,
+      "owasp_top10": [],
+      "owasp_api_top10": [],
+      "cwe": [
+        "cwe-693"
+      ],
+      "cve": null,
+      "cvss_score": null,
+      "source_tools": [
+        "nuclei"
+      ],
+      "location": {
+        "type": "web",
+        "url": "https://clinicstaff.md-hq.com/calendar.php",
+        "endpoint": "/calendar.php",
+        "method": "GET",
+        "source_file": null,
+        "line": null,
+        "package_name": null,
+        "package_version": null
+      },
+      "description": "Identified cookies that lacked the samesite=strict attribute, which prevented enforcement of restrictions on cross-domain cookie transmission.\n",
+      "remediation": "",
+      "references": [
+        "https://pulsesecurity.co.nz/articles/samesite-lax-csrf"
+      ],
+      "disposition": "report",
+      "first_detected": "2026-09-22T20:16:12.272172+00:00",
+      "tags": [
+        "misconfig",
+        "samesite",
+        "cookie",
+        "vuln"
+      ]
+    },
+    {
+      "finding_id": "corr-bca2412a-a9a1-4b1a-8662-f53ba500c128",
+      "fingerprint": "v1:sha256:f8f04d6a948f002efd44c25a630a62a806e0b71980eacaafbe084b7d02ec8099",
+      "title": "Missing Permissions-Policy header",
+      "severity": "informational",
+      "confidence": "high",
+      "category": "HTTP Security Headers",
+      "subcategory": null,
+      "owasp_top10": [],
+      "owasp_api_top10": [],
+      "cwe": [
+        "CWE-16"
+      ],
+      "cve": null,
+      "cvss_score": null,
+      "source_tools": [
+        "builtin"
+      ],
+      "location": {
+        "type": "web",
+        "url": "https://clinicstaff.md-hq.com",
+        "endpoint": "/",
+        "method": "GET",
+        "source_file": null,
+        "line": null,
+        "package_name": null,
+        "package_version": null
+      },
+      "description": "No Permissions-Policy header restricts access to browser features.",
+      "remediation": "Add a Permissions-Policy header to restrict browser features (camera, microphone, etc.)",
+      "references": [],
+      "disposition": "report",
+      "first_detected": "2026-09-22T20:09:04.627769+00:00",
+      "tags": []
+    },
+    {
+      "finding_id": "corr-ad49c690-86f2-41ff-b452-6165a39d96bd",
+      "fingerprint": "v1:sha256:cea220bb4af890a917ebf0a727cdce6c198c24741f7a13fc06ab270743c4a27e",
+      "title": "Missing Subresource Integrity",
+      "severity": "informational",
+      "confidence": "medium",
+      "category": "Security Misconfiguration",
+      "subcategory": null,
+      "owasp_top10": [],
+      "owasp_api_top10": [],
+      "cwe": [
+        "cwe-353"
+      ],
+      "cve": null,
+      "cvss_score": null,
+      "source_tools": [
+        "nuclei"
+      ],
+      "location": {
+        "type": "web",
+        "url": "https://clinicstaff.md-hq.com/calendar.php",
+        "endpoint": "/calendar.php",
+        "method": "GET",
+        "source_file": null,
+        "line": null,
+        "package_name": null,
+        "package_version": null
+      },
+      "description": "Checks if external script and stylesheet tags in the HTML response are missing the Subresource Integrity (SRI) attribute.\n",
+      "remediation": "",
+      "references": [
+        "https://cheatsheetseries.owasp.org/cheatsheets/Third_Party_Javascript_Management_Cheat_Sheet.html#subresource-integrity",
+        "https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity"
+      ],
+      "disposition": "report",
+      "first_detected": "2026-09-22T20:16:12.272554+00:00",
+      "tags": [
+        "compliance",
+        "js",
+        "css",
+        "sri",
+        "misconfig",
+        "vuln"
+      ]
+    },
+    {
+      "finding_id": "corr-ae011f4e-f605-40f0-a1cb-b778d068ed57",
+      "fingerprint": "v1:sha256:35b4bf6926d4a093b8eebb19e4a4ccbce7795d0c843c0df677ed51dabf1c072e",
+      "title": "SSL DNS Names",
+      "severity": "informational",
+      "confidence": "medium",
+      "category": "TLS/SSL Configuration",
+      "subcategory": null,
+      "owasp_top10": [],
+      "owasp_api_top10": [],
+      "cwe": [],
+      "cve": null,
+      "cvss_score": null,
+      "source_tools": [
+        "nuclei"
+      ],
+      "location": {
+        "type": "tls",
+        "url": "clinicstaff.md-hq.com:443",
+        "endpoint": "443",
+        "method": "GET",
+        "source_file": null,
+        "line": null,
+        "package_name": null,
+        "package_version": null
+      },
+      "description": "Extract the Subject Alternative Name (SAN) from the target's certificate. SAN facilitates the usage of additional hostnames with the same certificate.\n",
+      "remediation": "",
+      "references": [],
+      "disposition": "report",
+      "first_detected": "2026-09-22T20:16:12.272736+00:00",
+      "tags": [
+        "ssl",
+        "tls",
+        "vuln"
+      ]
+    },
+    {
+      "finding_id": "corr-74805954-ddbf-4150-a2cd-0f579acbfdac",
+      "fingerprint": "v1:sha256:2d618371caef141e2623d67861d5b6adef51751b58e9fe19a89c91701e5be818",
+      "title": "TLS Version - Detect",
+      "severity": "informational",
+      "confidence": "medium",
+      "category": "TLS/SSL Configuration",
+      "subcategory": null,
+      "owasp_top10": [],
+      "owasp_api_top10": [],
+      "cwe": [],
+      "cve": null,
+      "cvss_score": null,
+      "source_tools": [
+        "nuclei"
+      ],
+      "location": {
+        "type": "tls",
+        "url": "clinicstaff.md-hq.com:443",
+        "endpoint": "443",
+        "method": "GET",
+        "source_file": null,
+        "line": null,
+        "package_name": null,
+        "package_version": null
+      },
+      "description": "TLS version detection is a security process used to determine the version of the Transport Layer Security (TLS) protocol used by a computer or server.\nIt is important to detect the TLS version in order to ensure secure communication between two computers or servers.\n",
+      "remediation": "",
+      "references": [],
+      "disposition": "report",
+      "first_detected": "2026-09-22T20:16:12.271290+00:00",
+      "tags": [
+        "ssl",
+        "tls",
+        "discovery"
+      ]
+    },
+    {
+      "finding_id": "corr-d13807de-8130-43b3-ba45-886caf30849c",
+      "fingerprint": "v1:sha256:26a957b01a5e2ca6b33b4ec5b7be5f85c5b380e4b12933b852654836c163e720",
+      "title": "WAF Detection",
+      "severity": "informational",
+      "confidence": "medium",
+      "category": "Security Vulnerability",
+      "subcategory": null,
+      "owasp_top10": [],
+      "owasp_api_top10": [],
+      "cwe": [
+        "cwe-200"
+      ],
+      "cve": null,
+      "cvss_score": null,
+      "source_tools": [
+        "nuclei"
+      ],
+      "location": {
+        "type": "web",
+        "url": "https://clinicstaff.md-hq.com",
+        "endpoint": "/",
+        "method": "GET",
+        "source_file": null,
+        "line": null,
+        "package_name": null,
+        "package_version": null
+      },
+      "description": "A web application firewall was detected.",
+      "remediation": "",
+      "references": [
+        "https://github.com/Ekultek/WhatWaf"
+      ],
+      "disposition": "report",
+      "first_detected": "2026-09-22T20:16:12.271215+00:00",
+      "tags": [
+        "waf",
+        "tech",
+        "misc",
+        "discovery"
+      ]
+    },
+    {
+      "finding_id": "corr-99b35083-fb12-4d9b-95e2-f477d15b1121",
+      "fingerprint": "v1:sha256:df5188c7c8f7608c368fa8ee5eb78f7888380ca8fc59e0f763b05470b236a3a8",
+      "title": "Wappalyzer Technology Detection",
+      "severity": "informational",
+      "confidence": "medium",
+      "category": "Security Vulnerability",
+      "subcategory": null,
+      "owasp_top10": [],
+      "owasp_api_top10": [],
+      "cwe": [],
+      "cve": null,
+      "cvss_score": null,
+      "source_tools": [
+        "nuclei"
+      ],
+      "location": {
+        "type": "web",
+        "url": "https://clinicstaff.md-hq.com/calendar.php",
+        "endpoint": "/calendar.php",
+        "method": "GET",
+        "source_file": null,
+        "line": null,
+        "package_name": null,
+        "package_version": null
+      },
+      "description": "",
+      "remediation": "",
+      "references": [],
+      "disposition": "report",
+      "first_detected": "2026-09-22T20:16:12.272288+00:00",
+      "tags": [
+        "tech",
+        "discovery"
+      ]
+    },
+    {
+      "finding_id": "corr-39fe9c0b-0534-458b-b59f-e31ca4322a63",
+      "fingerprint": "v1:sha256:52936a3441050979bc3f95304b8b11a226e5a2c6a3ad5fd06a918638579911bf",
+      "title": "Wappalyzer Technology Detection",
+      "severity": "informational",
+      "confidence": "medium",
+      "category": "Security Vulnerability",
+      "subcategory": null,
+      "owasp_top10": [],
+      "owasp_api_top10": [],
+      "cwe": [],
+      "cve": null,
+      "cvss_score": null,
+      "source_tools": [
+        "nuclei"
+      ],
+      "location": {
+        "type": "web",
+        "url": "https://clinicstaff.md-hq.com",
+        "endpoint": "/",
+        "method": "GET",
+        "source_file": null,
+        "line": null,
+        "package_name": null,
+        "package_version": null
+      },
+      "description": "",
+      "remediation": "",
+      "references": [],
+      "disposition": "report",
+      "first_detected": "2026-09-22T20:16:12.272451+00:00",
+      "tags": [
+        "tech",
+        "discovery"
+      ]
+    },
+    {
+      "finding_id": "corr-a54b5c4e-5c09-41f7-ac51-7fff5a793a7e",
+      "fingerprint": "v1:sha256:7b4623e68f517675862a3efc55dbfac65b48dc0e995b5c355d215d9f8e74fb0a",
+      "title": "Wildcard TLS Certificate",
+      "severity": "informational",
+      "confidence": "medium",
+      "category": "TLS/SSL Configuration",
+      "subcategory": null,
+      "owasp_top10": [],
+      "owasp_api_top10": [],
+      "cwe": [],
+      "cve": null,
+      "cvss_score": null,
+      "source_tools": [
+        "nuclei"
+      ],
+      "location": {
+        "type": "tls",
+        "url": "clinicstaff.md-hq.com:443",
+        "endpoint": "443",
+        "method": "GET",
+        "source_file": null,
+        "line": null,
+        "package_name": null,
+        "package_version": null
+      },
+      "description": "Checks a sites certificate to see if there are wildcard CN or SAN entries.\n",
+      "remediation": "",
+      "references": [
+        "https://cheatsheetseries.owasp.org/cheatsheets/Transport_Layer_Security_Cheat_Sheet.html#carefully-consider-the-use-of-wildcard-certificates"
+      ],
+      "disposition": "report",
+      "first_detected": "2026-09-22T20:16:12.272777+00:00",
+      "tags": [
+        "ssl",
+        "tls",
+        "wildcard",
+        "vuln"
+      ]
+    }
+  ],
+  "tool_errors": []
+}

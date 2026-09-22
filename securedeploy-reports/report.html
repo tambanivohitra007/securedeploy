@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SecureDeploy Report — clinicstaff.md-hq.com security assessment</title>
+  <style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+       background: #f8fafc; color: #1e293b; line-height: 1.6; }
+.container { max-width: 1100px; margin: 0 auto; padding: 32px 24px; }
+
+/* Header */
+.header { background: #1e293b; color: white; padding: 32px 0; margin-bottom: 32px; }
+.header .container { display: flex; justify-content: space-between; align-items: center; }
+.header h1 { font-size: 1.6rem; font-weight: 700; }
+.header .meta { font-size: 0.85rem; color: #94a3b8; margin-top: 4px; }
+
+/* Verdict banner */
+.verdict { border-radius: 10px; padding: 20px 28px; margin-bottom: 28px;
+           display: flex; align-items: center; gap: 16px; font-size: 1.1rem; font-weight: 600; }
+.verdict-pass { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
+.verdict-fail { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
+.verdict-icon { font-size: 2rem; }
+.verdict-detail { font-size: 0.875rem; font-weight: 400; color: inherit; opacity: 0.8; margin-top: 2px; }
+
+/* Summary grid */
+.summary-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 28px; }
+.sev-card { background: white; border-radius: 8px; padding: 16px; text-align: center;
+            border-top: 4px solid; box-shadow: 0 1px 3px rgba(0,0,0,.07); }
+.sev-card .count { font-size: 2.2rem; font-weight: 800; }
+.sev-card .label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: .06em; color: #64748b; }
+
+/* Section */
+.section { background: white; border-radius: 10px; box-shadow: 0 1px 3px rgba(0,0,0,.07);
+           margin-bottom: 24px; overflow: hidden; }
+.section-header { padding: 16px 24px; background: #f1f5f9; border-bottom: 1px solid #e2e8f0;
+                  font-weight: 600; font-size: 0.95rem; display: flex; justify-content: space-between; }
+.section-count { background: #e2e8f0; border-radius: 999px; padding: 2px 10px;
+                 font-size: 0.78rem; font-weight: 500; color: #475569; }
+
+/* Finding table */
+table { width: 100%; border-collapse: collapse; }
+th { padding: 10px 16px; background: #f8fafc; font-size: 0.78rem; text-transform: uppercase;
+     letter-spacing: .05em; color: #64748b; text-align: left; border-bottom: 1px solid #e2e8f0; }
+td { padding: 14px 16px; border-bottom: 1px solid #f1f5f9; vertical-align: top; font-size: 0.875rem; }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: #fafafa; }
+
+.sev-dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%;
+           margin-right: 6px; vertical-align: middle; }
+.badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.72rem;
+         font-weight: 600; letter-spacing: .04em; }
+.badge-block { background: #fee2e2; color: #991b1b; }
+.badge-warn  { background: #fef9c3; color: #854d0e; }
+.badge-info  { background: #e0f2fe; color: #075985; }
+.badge-ok    { background: #dcfce7; color: #166534; }
+
+.finding-title { font-weight: 600; color: #0f172a; }
+.finding-desc  { color: #64748b; font-size: 0.82rem; margin-top: 3px; }
+.finding-loc   { font-family: monospace; font-size: 0.78rem; color: #475569; margin-top: 4px;
+                 background: #f1f5f9; padding: 2px 6px; border-radius: 4px; display: inline-block; }
+.cwe-tag  { display: inline-block; background: #f1f5f9; color: #475569; border-radius: 4px;
+            padding: 1px 6px; font-size: 0.72rem; margin: 2px 2px 0 0; }
+
+/* Tool errors */
+.tool-error { background: #fffbeb; border-left: 3px solid #f59e0b; padding: 12px 16px;
+              margin: 0; font-size: 0.875rem; }
+.tool-error strong { color: #92400e; }
+
+/* Remediation */
+.remediation { background: #f0fdf4; border-radius: 6px; padding: 10px 14px; margin-top: 8px;
+               font-size: 0.82rem; color: #166534; }
+.remediation-label { font-weight: 600; margin-bottom: 2px; }
+
+/* Footer */
+.footer { text-align: center; color: #94a3b8; font-size: 0.8rem; margin-top: 40px; padding-top: 24px;
+          border-top: 1px solid #e2e8f0; }
+
+/* Responsive */
+@media (max-width: 700px) {
+  .summary-grid { grid-template-columns: repeat(3, 1fr); }
+  .header .container { flex-direction: column; gap: 8px; }
+}
+</style>
+</head>
+<body>
+  <div class="header">
+    <div class="container">
+      <div>
+        <h1>SecureDeploy Security Report</h1>
+        <div class="meta">clinicstaff.md-hq.com security assessment &nbsp;·&nbsp; https://clinicstaff.md-hq.com &nbsp;·&nbsp; Profile: STANDARD</div>
+        <div class="meta">Scan ID: 4c028c4f &nbsp;·&nbsp; Generated: 2026-09-22 20:19 UTC &nbsp;·&nbsp; v0.1.0</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="verdict verdict-pass">
+      <span class="verdict-icon">✅</span>
+      <div>
+        PASS — No blocking findings
+        <div class="verdict-detail">PASS means the application passed the configured security policy. It does not guarantee the absence of all security vulnerabilities.</div>
+      </div>
+    </div>
+
+    <div class="summary-grid">
+            <div class="sev-card" style="border-color:#dc2626">
+                <div class="count" style="color:#dc2626">0</div>
+                <div class="label">Critical</div>
+            </div>
+            <div class="sev-card" style="border-color:#ea580c">
+                <div class="count" style="color:#ea580c">0</div>
+                <div class="label">High</div>
+            </div>
+            <div class="sev-card" style="border-color:#d97706">
+                <div class="count" style="color:#d97706">3</div>
+                <div class="label">Medium</div>
+            </div>
+            <div class="sev-card" style="border-color:#65a30d">
+                <div class="count" style="color:#65a30d">3</div>
+                <div class="label">Low</div>
+            </div>
+            <div class="sev-card" style="border-color:#6b7280">
+                <div class="count" style="color:#6b7280">13</div>
+                <div class="label">Info</div>
+            </div></div>
+
+    
+    
+            <div class="section">
+              <div class="section-header">
+                HTTP Security Headers
+                <span class="section-count">8 findings</span>
+              </div>
+              <table>
+                <thead>
+                  <tr>
+                    <th style="width:100px">Severity</th>
+                    <th>Finding</th>
+                    <th style="width:180px">Category</th>
+                    <th style="width:120px">Source</th>
+                    <th style="width:100px">Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+    <tr>
+      <td>
+        <span class="sev-dot" style="background:#d97706"></span>
+        <span style="font-weight:600;color:#d97706;text-transform:capitalize">medium</span>
+      </td>
+      <td>
+        <div class="finding-title">Missing Content-Security-Policy header</div>
+        <div class="finding-desc">No Content-Security-Policy header is present. This increases XSS risk.</div>
+        <span class="finding-loc">https://clinicstaff.md-hq.com</span>
+        <span class="cwe-tag">CWE-79</span>
+        
+        <div class="remediation">
+            <div class="remediation-label">Remediation</div>
+            Implement a Content-Security-Policy. Start with a report-only policy.
+        </div>
+      </td>
+      <td>HTTP Security Headers</td>
+      <td><code style="font-size:0.75rem;color:#64748b">builtin</code></td>
+      <td><span class="badge badge-warn">WARN</span></td>
+    </tr>
+    <tr>
+      <td>
+        <span class="sev-dot" style="background:#d97706"></span>
+        <span style="font-weight:600;color:#d97706;text-transform:capitalize">medium</span>
+      </td>
+      <td>
+        <div class="finding-title">Missing HTTP Strict-Transport-Security header</div>
+        <div class="finding-desc">HSTS is not set. Browsers will not enforce HTTPS connections for this origin.</div>
+        <span class="finding-loc">https://clinicstaff.md-hq.com</span>
+        <span class="cwe-tag">CWE-319</span>
+        
+        <div class="remediation">
+            <div class="remediation-label">Remediation</div>
+            Add: Strict-Transport-Security: max-age=31536000; includeSubDomains
+        </div>
+      </td>
+      <td>HTTP Security Headers</td>
+      <td><code style="font-size:0.75rem;color:#64748b">builtin</code></td>
+      <td><span class="badge badge-warn">WARN</span></td>
+    </tr>
+    <tr>
+      <td>
+        <span class="sev-dot" style="background:#d97706"></span>
+        <span style="font-weight:600;color:#d97706;text-transform:capitalize">medium</span>
+      </td>
+      <td>
+        <div class="finding-title">Missing X-Frame-Options or CSP frame-ancestors</div>
+        <div class="finding-desc">The application does not set X-Frame-Options or CSP frame-ancestors, enabling clickjacking.</div>
+        <span class="finding-loc">https://clinicstaff.md-hq.com</span>
+        <span class="cwe-tag">CWE-1021</span>
+        
+        <div class="remediation">
+            <div class="remediation-label">Remediation</div>
+            Add X-Frame-Options: DENY or Content-Security-Policy: frame-ancestors &#x27;none&#x27;
+        </div>
+      </td>
+      <td>HTTP Security Headers</td>
+      <td><code style="font-size:0.75rem;color:#64748b">builtin</code></td>
+      <td><span class="badge badge-warn">WARN</span></td>
+    </tr>
+    <tr>
+      <td>
+        <span class="sev-dot" style="background:#65a30d"></span>
+        <span style="font-weight:600;color:#65a30d;text-transform:capitalize">low</span>
+      </td>
+      <td>
+        <div class="finding-title">Missing Referrer-Policy header</div>
+        <div class="finding-desc">No Referrer-Policy is set. Sensitive URL parameters may leak to third parties.</div>
+        <span class="finding-loc">https://clinicstaff.md-hq.com</span>
+        <span class="cwe-tag">CWE-200</span>
+        
+        <div class="remediation">
+            <div class="remediation-label">Remediation</div>
+            Add: Referrer-Policy: strict-origin-when-cross-origin
+        </div>
+      </td>
+      <td>HTTP Security Headers</td>
+      <td><code style="font-size:0.75rem;color:#64748b">builtin</code></td>
+      <td><span class="badge badge-info">INFO</span></td>
+    </tr>
+    <tr>
+      <td>
+        <span class="sev-dot" style="background:#65a30d"></span>
+        <span style="font-weight:600;color:#65a30d;text-transform:capitalize">low</span>
+      </td>
+      <td>
+        <div class="finding-title">Missing X-Content-Type-Options header</div>
+        <div class="finding-desc">X-Content-Type-Options: nosniff is not set, enabling MIME-type sniffing attacks.</div>
+        <span class="finding-loc">https://clinicstaff.md-hq.com</span>
+        <span class="cwe-tag">CWE-16</span>
+        
+        <div class="remediation">
+            <div class="remediation-label">Remediation</div>
+            Add: X-Content-Type-Options: nosniff
+        </div>
+      </td>
+      <td>HTTP Security Headers</td>
+      <td><code style="font-size:0.75rem;color:#64748b">builtin</code></td>
+      <td><span class="badge badge-info">INFO</span></td>
+    </tr>
+    <tr>
+      <td>
+        <span class="sev-dot" style="background:#65a30d"></span>
+        <span style="font-weight:600;color:#65a30d;text-transform:capitalize">low</span>
+      </td>
+      <td>
+        <div class="finding-title">X-Powered-By header discloses technology stack</div>
+        <div class="finding-desc">X-Powered-By: PHP/8.4.24 reveals implementation details.</div>
+        <span class="finding-loc">https://clinicstaff.md-hq.com</span>
+        <span class="cwe-tag">CWE-200</span>
+        
+        <div class="remediation">
+            <div class="remediation-label">Remediation</div>
+            Remove or suppress the X-Powered-By header.
+        </div>
+      </td>
+      <td>HTTP Security Headers</td>
+      <td><code style="font-size:0.75rem;color:#64748b">builtin</code></td>
+      <td><span class="badge badge-info">INFO</span></td>
+    </tr>
+    <tr>
+      <td>
+        <span class="sev-dot" style="background:#6b7280"></span>
+        <span style="font-weight:600;color:#6b7280;text-transform:capitalize">informational</span>
+      </td>
+      <td>
+        <div class="finding-title">HTTP Missing Security Headers</div>
+        <div class="finding-desc">This template searches for missing HTTP security headers. The impact of these missing headers can vary.
+</div>
+        <span class="finding-loc">https://clinicstaff.md-hq.com/calendar.php</span>
+        <span class="cwe-tag">cwe-693</span>
+        
+      </td>
+      <td>HTTP Security Headers</td>
+      <td><code style="font-size:0.75rem;color:#64748b">nuclei</code></td>
+      <td><span class="badge badge-info">INFO</span></td>
+    </tr>
+    <tr>
+      <td>
+        <span class="sev-dot" style="background:#6b7280"></span>
+        <span style="font-weight:600;color:#6b7280;text-transform:capitalize">informational</span>
+      </td>
+      <td>
+        <div class="finding-title">Missing Permissions-Policy header</div>
+        <div class="finding-desc">No Permissions-Policy header restricts access to browser features.</div>
+        <span class="finding-loc">https://clinicstaff.md-hq.com</span>
+        <span class="cwe-tag">CWE-16</span>
+        
+        <div class="remediation">
+            <div class="remediation-label">Remediation</div>
+            Add a Permissions-Policy header to restrict browser features (camera, microphone, etc.)
+        </div>
+      </td>
+      <td>HTTP Security Headers</td>
+      <td><code style="font-size:0.75rem;color:#64748b">builtin</code></td>
+      <td><span class="badge badge-info">INFO</span></td>
+    </tr></tbody>
+              </table>
+            </div>
+            <div class="section">
+              <div class="section-header">
+                Security Misconfiguration
+                <span class="section-count">3 findings</span>
+              </div>
+              <table>
+                <thead>
+                  <tr>
+                    <th style="width:100px">Severity</th>
+                    <th>Finding</th>
+                    <th style="width:180px">Category</th>
+                    <th style="width:120px">Source</th>
+                    <th style="width:100px">Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+    <tr>
+      <td>
+        <span class="sev-dot" style="background:#6b7280"></span>
+        <span style="font-weight:600;color:#6b7280;text-transform:capitalize">informational</span>
+      </td>
+      <td>
+        <div class="finding-title">Browser Configuration &quot;browserconfig.xml&quot; Exposure</div>
+        <div class="finding-desc">Browser Configuration &quot;browserconfig.xml&quot; File was exposed.
+</div>
+        <span class="finding-loc">https://clinicstaff.md-hq.com/browserconfig.xml</span>
+        
+        
+      </td>
+      <td>Security Misconfiguration</td>
+      <td><code style="font-size:0.75rem;color:#64748b">nuclei</code></td>
+      <td><span class="badge badge-info">INFO</span></td>
+    </tr>
+    <tr>
+      <td>
+        <span class="sev-dot" style="background:#6b7280"></span>
+        <span style="font-weight:600;color:#6b7280;text-transform:capitalize">informational</span>
+      </td>
+      <td>
+        <div class="finding-title">Missing Cookie SameSite Strict</div>
+        <div class="finding-desc">Identified cookies that lacked the samesite=strict attribute, which prevented enforcement of restrictions on cross-domain cookie transmission.
+</div>
+        <span class="finding-loc">https://clinicstaff.md-hq.com/calendar.php</span>
+        <span class="cwe-tag">cwe-693</span>
+        
+      </td>
+      <td>Security Misconfiguration</td>
+      <td><code style="font-size:0.75rem;color:#64748b">nuclei</code></td>
+      <td><span class="badge badge-info">INFO</span></td>
+    </tr>
+    <tr>
+      <td>
+        <span class="sev-dot" style="background:#6b7280"></span>
+        <span style="font-weight:600;color:#6b7280;text-transform:capitalize">informational</span>
+      </td>
+      <td>
+        <div class="finding-title">Missing Subresource Integrity</div>
+        <div class="finding-desc">Checks if external script and stylesheet tags in the HTML response are missing the Subresource Integrity (SRI) attribute.
+</div>
+        <span class="finding-loc">https://clinicstaff.md-hq.com/calendar.php</span>
+        <span class="cwe-tag">cwe-353</span>
+        
+      </td>
+      <td>Security Misconfiguration</td>
+      <td><code style="font-size:0.75rem;color:#64748b">nuclei</code></td>
+      <td><span class="badge badge-info">INFO</span></td>
+    </tr></tbody>
+              </table>
+            </div>
+            <div class="section">
+              <div class="section-header">
+                Security Vulnerability
+                <span class="section-count">4 findings</span>
+              </div>
+              <table>
+                <thead>
+                  <tr>
+                    <th style="width:100px">Severity</th>
+                    <th>Finding</th>
+                    <th style="width:180px">Category</th>
+                    <th style="width:120px">Source</th>
+                    <th style="width:100px">Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+    <tr>
+      <td>
+        <span class="sev-dot" style="background:#6b7280"></span>
+        <span style="font-weight:600;color:#6b7280;text-transform:capitalize">informational</span>
+      </td>
+      <td>
+        <div class="finding-title">Inertia.js - Detect</div>
+        <div class="finding-desc">Detected Inertia.js passively using a single plain GET request with no special headers. It matched four server-emitted Inertia-specific signals on the initial document: three proxi…</div>
+        <span class="finding-loc">https://clinicstaff.md-hq.com</span>
+        
+        
+      </td>
+      <td>Security Vulnerability</td>
+      <td><code style="font-size:0.75rem;color:#64748b">nuclei</code></td>
+      <td><span class="badge badge-info">INFO</span></td>
+    </tr>
+    <tr>
+      <td>
+        <span class="sev-dot" style="background:#6b7280"></span>
+        <span style="font-weight:600;color:#6b7280;text-transform:capitalize">informational</span>
+      </td>
+      <td>
+        <div class="finding-title">WAF Detection</div>
+        <div class="finding-desc">A web application firewall was detected.</div>
+        <span class="finding-loc">https://clinicstaff.md-hq.com</span>
+        <span class="cwe-tag">cwe-200</span>
+        
+      </td>
+      <td>Security Vulnerability</td>
+      <td><code style="font-size:0.75rem;color:#64748b">nuclei</code></td>
+      <td><span class="badge badge-info">INFO</span></td>
+    </tr>
+    <tr>
+      <td>
+        <span class="sev-dot" style="background:#6b7280"></span>
+        <span style="font-weight:600;color:#6b7280;text-transform:capitalize">informational</span>
+      </td>
+      <td>
+        <div class="finding-title">Wappalyzer Technology Detection</div>
+        <div class="finding-desc"></div>
+        <span class="finding-loc">https://clinicstaff.md-hq.com/calendar.php</span>
+        
+        
+      </td>
+      <td>Security Vulnerability</td>
+      <td><code style="font-size:0.75rem;color:#64748b">nuclei</code></td>
+      <td><span class="badge badge-info">INFO</span></td>
+    </tr>
+    <tr>
+      <td>
+        <span class="sev-dot" style="background:#6b7280"></span>
+        <span style="font-weight:600;color:#6b7280;text-transform:capitalize">informational</span>
+      </td>
+      <td>
+        <div class="finding-title">Wappalyzer Technology Detection</div>
+        <div class="finding-desc"></div>
+        <span class="finding-loc">https://clinicstaff.md-hq.com</span>
+        
+        
+      </td>
+      <td>Security Vulnerability</td>
+      <td><code style="font-size:0.75rem;color:#64748b">nuclei</code></td>
+      <td><span class="badge badge-info">INFO</span></td>
+    </tr></tbody>
+              </table>
+            </div>
+            <div class="section">
+              <div class="section-header">
+                TLS/SSL Configuration
+                <span class="section-count">4 findings</span>
+              </div>
+              <table>
+                <thead>
+                  <tr>
+                    <th style="width:100px">Severity</th>
+                    <th>Finding</th>
+                    <th style="width:180px">Category</th>
+                    <th style="width:120px">Source</th>
+                    <th style="width:100px">Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+    <tr>
+      <td>
+        <span class="sev-dot" style="background:#6b7280"></span>
+        <span style="font-weight:600;color:#6b7280;text-transform:capitalize">informational</span>
+      </td>
+      <td>
+        <div class="finding-title">Detect SSL Certificate Issuer</div>
+        <div class="finding-desc">Extract the issuer&#x27;s organization from the target&#x27;s certificate. Issuers are entities which sign and distribute certificates.
+</div>
+        <span class="finding-loc">clinicstaff.md-hq.com:443</span>
+        
+        
+      </td>
+      <td>TLS/SSL Configuration</td>
+      <td><code style="font-size:0.75rem;color:#64748b">nuclei</code></td>
+      <td><span class="badge badge-info">INFO</span></td>
+    </tr>
+    <tr>
+      <td>
+        <span class="sev-dot" style="background:#6b7280"></span>
+        <span style="font-weight:600;color:#6b7280;text-transform:capitalize">informational</span>
+      </td>
+      <td>
+        <div class="finding-title">SSL DNS Names</div>
+        <div class="finding-desc">Extract the Subject Alternative Name (SAN) from the target&#x27;s certificate. SAN facilitates the usage of additional hostnames with the same certificate.
+</div>
+        <span class="finding-loc">clinicstaff.md-hq.com:443</span>
+        
+        
+      </td>
+      <td>TLS/SSL Configuration</td>
+      <td><code style="font-size:0.75rem;color:#64748b">nuclei</code></td>
+      <td><span class="badge badge-info">INFO</span></td>
+    </tr>
+    <tr>
+      <td>
+        <span class="sev-dot" style="background:#6b7280"></span>
+        <span style="font-weight:600;color:#6b7280;text-transform:capitalize">informational</span>
+      </td>
+      <td>
+        <div class="finding-title">TLS Version - Detect</div>
+        <div class="finding-desc">TLS version detection is a security process used to determine the version of the Transport Layer Security (TLS) protocol used by a computer or server.
+It is important to detect the…</div>
+        <span class="finding-loc">clinicstaff.md-hq.com:443</span>
+        
+        
+      </td>
+      <td>TLS/SSL Configuration</td>
+      <td><code style="font-size:0.75rem;color:#64748b">nuclei</code></td>
+      <td><span class="badge badge-info">INFO</span></td>
+    </tr>
+    <tr>
+      <td>
+        <span class="sev-dot" style="background:#6b7280"></span>
+        <span style="font-weight:600;color:#6b7280;text-transform:capitalize">informational</span>
+      </td>
+      <td>
+        <div class="finding-title">Wildcard TLS Certificate</div>
+        <div class="finding-desc">Checks a sites certificate to see if there are wildcard CN or SAN entries.
+</div>
+        <span class="finding-loc">clinicstaff.md-hq.com:443</span>
+        
+        
+      </td>
+      <td>TLS/SSL Configuration</td>
+      <td><code style="font-size:0.75rem;color:#64748b">nuclei</code></td>
+      <td><span class="badge badge-info">INFO</span></td>
+    </tr></tbody>
+              </table>
+            </div>
+    
+
+    <div class="footer">
+      Generated by <strong>SecureDeploy 0.1.0</strong> &nbsp;·&nbsp;
+      This report is confidential and intended for authorized recipients only.
+    </div>
+  </div>
+</body>
+</html>
