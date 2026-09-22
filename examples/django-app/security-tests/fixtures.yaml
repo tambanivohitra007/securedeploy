@@ -1,0 +1,30 @@
+# Dynamic fixtures — resolved via HTTP requests before tests run
+
+fixtures:
+
+  - id: "alice_student_id"
+    description: "Alice's student ID from /api/auth/me"
+    resolve:
+      type: "http_extract"
+      identity: "student_alice"
+      method: "GET"
+      path: "/api/auth/me"
+      extract: "$.id"
+
+  - id: "alice_grade_id"
+    description: "ID of a grade record owned by Alice"
+    resolve:
+      type: "http_extract"
+      identity: "student_alice"
+      method: "GET"
+      path: "/api/students/{{ fixtures.alice_student_id }}/grades"
+      extract: "$.grades[0].id"
+
+  - id: "bob_student_id"
+    description: "Bob's student ID"
+    resolve:
+      type: "http_extract"
+      identity: "student_bob"
+      method: "GET"
+      path: "/api/auth/me"
+      extract: "$.id"

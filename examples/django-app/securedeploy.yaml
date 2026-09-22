@@ -1,0 +1,78 @@
+# securedeploy.yaml — Student Management Platform example
+# Run: securedeploy test --profile standard
+
+version: "1"
+
+project:
+  name: "Student Management Platform"
+  id: "student-platform"
+
+target:
+  url: "https://staging.student-platform.example.com"
+  environment: staging
+  api_base: "/api/v1"
+  openapi_spec: "./docs/openapi.yaml"
+  scope:
+    include:
+      - "staging.student-platform.example.com"
+    exclude:
+      - "stripe.com"
+      - "auth0.com"
+      - "google-analytics.com"
+
+source:
+  path: "./src"
+  exclude:
+    - "node_modules/"
+    - "static/"
+    - "**/*.min.js"
+
+testing:
+  source_code: true
+  secrets: true
+  dependencies: true
+  containers: true
+  tls: true
+  headers: true
+  web: true
+  api: true
+  custom_tests: true
+  container_images:
+    - "student-platform:latest"
+  iac_paths:
+    - "./k8s/"
+
+custom_tests:
+  paths:
+    - "./security-tests/**/*.yaml"
+
+policy:
+  on_finding:
+    critical: block
+    high: block
+    medium: warn
+    low: report
+    informational: report
+  on_tool_failure: warn
+
+# Example accepted risk — remove once resolved
+# accepted_risks:
+#   - id: "AR-001"
+#     title: "Self-signed cert on staging"
+#     rule_id: "tls-cert-invalid"
+#     tool: "builtin"
+#     reason: "Staging uses self-signed cert. Production has a valid cert from Let's Encrypt."
+#     accepted_by: "security@student-platform.example.com"
+#     expires: "2027-01-01"
+
+safety:
+  max_concurrency: 3
+  default_timeout: 600
+  max_requests_per_second: 10
+
+output:
+  directory: "./securedeploy-reports"
+  formats:
+    - terminal
+    - sarif
+    - json

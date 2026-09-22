@@ -1,0 +1,152 @@
+# Authorization tests for the Student Management Platform
+# These tests verify that access control rules are enforced server-side.
+
+suite: "Authorization and Access Control"
+category: "Broken Access Control"
+owasp: "WSTG-ATHZ-01"
+cwe: "CWE-285"
+
+authorization_tests:
+
+  # ── Unauthenticated access ──────────────────────────────────────────────
+
+  - name: "Unauthenticated request cannot access student grades"
+    severity: critical
+    identity: "unauthenticated"
+    request:
+      method: GET
+      path: /api/students/1/grades
+    expect:
+      status: [401, 403]
+
+  - name: "Unauthenticated request cannot list users"
+    severity: critical
+    identity: "unauthenticated"
+    request:
+      method: GET
+      path: /api/admin/users
+    expect:
+      status: [401, 403]
+
+  # ── Vertical privilege escalation ──────────────────────────────────────
+
+  - name: "Student cannot access admin user list"
+    severity: critical
+    identity: "student_alice"
+    request:
+      method: GET
+      path: /api/admin/users
+    expect:
+      status: [403, 404]
+      body_must_not_contain:
+        - '"email"'
+        - '"role"'
+
+  - name: "Student cannot create admin user"
+    severity: critical
+    identity: "student_alice"
+    request:
+      method: POST
+      path: /api/admin/users
+      body:
+        email: "injected@evil.com"
+        role: "admin"
+    expect:
+      status: [403, 404]
+
+  - name: "Student cannot delete another user's account"
+    severity: critical
+    identity: "student_alice"
+    request:
+      method: DELETE
+      path: /api/admin/users/{{ fixtures.bob_student_id }}
+    expect:
+      status: [403, 404]
+
+  # ── Horizontal privilege escalation / IDOR ─────────────────────────────
+
+  - name: "Student cannot read another student's grades"
+    severity: critical
+    identity: "student_alice"
+    request:
+      method: GET
+      path: /api/students/{{ fixtures.bob_student_id }}/grades
+    expect:
+      status: [403, 404]
+      body_must_not_contain:
+        - '"grade"'
+        - '"score"'
+        - '"subject"'
+
+  - name: "Student cannot update another student's profile"
+    severity: critical
+    identity: "student_alice"
+    request:
+      method: PUT
+      path: /api/students/{{ fixtures.bob_student_id }}
+      body:
+        name: "Attacker"
+    expect:
+      status: [403, 404]
+
+  - name: "Student cannot delete a grade they do not own"
+    severity: high
+    identity: "student_bob"
+    request:
+      method: DELETE
+      path: /api/grades/{{ fixtures.alice_grade_id }}
+    expect:
+      status: [403, 404]
+
+  # ── Mass assignment / parameter tampering ─────────────────────────────
+
+  - name: "Student cannot self-assign admin role via profile update"
+    severity: critical
+    identity: "student_alice"
+    request:
+      method: PUT
+      path: /api/students/{{ fixtures.alice_student_id }}
+      body:
+        name: "Alice"
+        role: "admin"
+        is_admin: true
+    expect:
+      status: [200, 400]
+      body_must_not_contain:
+        - '"role":"admin"'
+        - '"is_admin":true'
+
+  # ── Role-based access (positive assertions) ────────────────────────────
+
+  - name: "Teacher can read all students in their class"
+    severity: informational
+    identity: "teacher"
+    request:
+      method: GET
+      path: /api/classes/1/students
+    expect:
+      status: [200]   # Positive: teacher SHOULD be able to do this
+
+  - name: "Student cannot access teacher-only gradebook"
+    severity: high
+    identity: "student_alice"
+    request:
+      method: GET
+      path: /api/teacher/gradebook
+    expect:
+      status: [403, 404]
+
+  # ── HTTPS enforcement ──────────────────────────────────────────────────
+
+  - name: "Admin API must use HTTPS"
+    severity: high
+    identity: "unauthenticated"
+    request:
+      method: GET
+      path: /api/admin/users
+      protocol: "http"
+    expect:
+      status: [301, 302, 307, 308]
+      headers:
+        location:
+          starts_with: "https://"

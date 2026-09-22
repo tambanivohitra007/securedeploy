@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+# SecureDeploy shell wrapper — runs securedeploy in Docker if not installed natively.
+# Add this script to your PATH: export PATH="$PATH:/path/to/securedeploy/scripts"
+
+set -euo pipefail
+
+IMAGE="ghcr.io/securedeploy/securedeploy:0.1.0"
+WORKSPACE="$(pwd)"
+
+# Use native installation if available
+if command -v securedeploy &>/dev/null && [[ "$(command -v securedeploy)" != "$0" ]]; then
+    exec securedeploy "$@"
+fi
+
+# Check Docker is running
+if ! docker info &>/dev/null 2>&1; then
+    echo "Error: Docker is not running and securedeploy is not installed natively." >&2
+    echo "Either start Docker or install securedeploy: pip install securedeploy" >&2
+    exit 2
+fi
+
+# Build Docker run command
+DOCKER_ARGS=(
+    "docker" "run" "--rm"
+    "--network" "host"
+    "-v" "${WORKSPACE}:/workspace"
+    "-w" "/workspace"
+)
+
+# Forward SECUREDEPLOY_* environment variables
+while IFS='=' read -r name value; do
+    if [[ "$name" == SECUREDEPLOY_* ]] || [[ "$name" == TEST_* ]]; then
+        DOCKER_ARGS+=("-e" "$name=$value")
+    fi
+done < <(env)
+
+# Mount Docker socket only if container scanning is needed
+# (user must set SECUREDEPLOY_SCAN_CONTAINERS=true explicitly)
+if [[ "${SECUREDEPLOY_SCAN_CONTAINERS:-false}" == "true" ]]; then
+    if [[ -S /var/run/docker.sock ]]; then
+        DOCKER_ARGS+=("-v" "/var/run/docker.sock:/var/run/docker.sock")
+    fi
+fi
+
+DOCKER_ARGS+=("${IMAGE}")
+DOCKER_ARGS+=("$@")
+
+exec "${DOCKER_ARGS[@]}"

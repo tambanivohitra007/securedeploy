@@ -1,0 +1,41 @@
+{
+  "errors": [],
+  "results": [
+    {
+      "check_id": "python.django.security.audit.sql-injection.sql-injection",
+      "path": "src/views.py",
+      "start": {"line": 42, "col": 8, "offset": 1200},
+      "end": {"line": 42, "col": 60, "offset": 1252},
+      "extra": {
+        "message": "Detected SQL injection via string interpolation. Use parameterized queries.",
+        "severity": "ERROR",
+        "metadata": {
+          "cwe": ["CWE-89: Improper Neutralization of Special Elements used in an SQL Command"],
+          "owasp": ["A03:2021 - Injection"],
+          "confidence": "HIGH",
+          "references": ["https://owasp.org/Top10/A03_2021-Injection/"]
+        },
+        "lines": "    cursor.execute(f\"SELECT * FROM users WHERE id = {user_id}\")"
+      }
+    },
+    {
+      "check_id": "python.lang.security.audit.hardcoded-password.hardcoded-password",
+      "path": "src/config.py",
+      "start": {"line": 8, "col": 1, "offset": 120},
+      "end": {"line": 8, "col": 40, "offset": 160},
+      "extra": {
+        "message": "Hard-coded password detected. Use environment variables or secrets manager.",
+        "severity": "ERROR",
+        "metadata": {
+          "cwe": ["CWE-798: Use of Hard-coded Credentials"],
+          "owasp": ["A07:2021 - Identification and Authentication Failures"],
+          "confidence": "HIGH",
+          "references": []
+        },
+        "lines": "DATABASE_PASSWORD = 'super_secret_pass'"
+      }
+    }
+  ],
+  "paths": {"scanned": ["src/views.py", "src/config.py"]},
+  "version": "1.85.0"
+}

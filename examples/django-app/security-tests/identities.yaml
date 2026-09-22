@@ -1,0 +1,51 @@
+# identity definitions for the Student Management Platform
+
+identities:
+
+  - id: "unauthenticated"
+    # Anonymous — no auth headers
+
+  - id: "student_alice"
+    auth:
+      type: "login_form"
+      url: "/api/auth/login"
+      method: "POST"
+      body:
+        username: "${TEST_ALICE_EMAIL}"
+        password: "${TEST_ALICE_PASSWORD}"
+      token_path: "$.access_token"
+      token_usage:
+        header: "Authorization"
+        prefix: "Bearer "
+
+  - id: "student_bob"
+    auth:
+      type: "login_form"
+      url: "/api/auth/login"
+      method: "POST"
+      body:
+        username: "${TEST_BOB_EMAIL}"
+        password: "${TEST_BOB_PASSWORD}"
+      token_path: "$.access_token"
+      token_usage:
+        header: "Authorization"
+        prefix: "Bearer "
+
+  - id: "teacher"
+    auth:
+      type: "api_key"
+      header: "X-API-Key"
+      value: "${TEST_TEACHER_API_KEY}"
+
+  - id: "admin"
+    auth:
+      type: "login_form"
+      url: "/api/auth/login"
+      method: "POST"
+      body:
+        username: "${TEST_ADMIN_EMAIL}"
+        password: "${TEST_ADMIN_PASSWORD}"
+      token_path: "$.access_token"
+      token_usage:
+        header: "Authorization"
+        prefix: "Bearer "

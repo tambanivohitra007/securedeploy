@@ -1,0 +1,40 @@
+SecureDeploy
+Copyright 2026 SecureDeploy Contributors
+
+This product orchestrates the following third-party open-source tools.
+SecureDeploy does not redistribute these tools; it invokes them as
+separate processes or Docker containers. Each tool retains its own license.
+
+--------------------------------------------------------------------------------
+Trivy (https://github.com/aquasecurity/trivy)
+Copyright 2019-2026 Aqua Security
+License: Apache License 2.0
+--------------------------------------------------------------------------------
+Semgrep Community Edition (https://github.com/semgrep/semgrep)
+Copyright 2019-2026 Semgrep, Inc.
+Engine License: GNU Lesser General Public License v2.1
+Community Rules License: Semgrep Rules License v1.0
+NOTE: The Semgrep Rules License permits use in internal, non-competing,
+non-SaaS contexts. If you intend to build a hosted SaaS scanning service
+using these rules, obtain a commercial license from Semgrep, Inc.
+--------------------------------------------------------------------------------
+Nuclei (https://github.com/projectdiscovery/nuclei)
+Copyright 2020-2026 ProjectDiscovery, Inc.
+License: MIT License
+--------------------------------------------------------------------------------
+Gitleaks (https://github.com/gitleaks/gitleaks)
+Copyright 2019-2026 Zachary Rice
+License: MIT License
+--------------------------------------------------------------------------------
+testssl.sh (https://github.com/testssl/testssl.sh)
+Copyright 2012-2026 Dirk Wetter
+License: GNU General Public License v2.0
+--------------------------------------------------------------------------------
+ZAP (https://www.zaproxy.org/)
+Copyright 2010-2026 ZAP Core Team
+License: Apache License 2.0
+--------------------------------------------------------------------------------
+OSV-Scanner (https://github.com/google/osv-scanner)
+Copyright 2022-2026 Google LLC
+License: Apache License 2.0
+--------------------------------------------------------------------------------

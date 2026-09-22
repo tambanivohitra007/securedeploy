@@ -1,0 +1,25 @@
+{
+  "schema_version": "1",
+  "generated_at": "2026-09-23",
+  "tools": {
+    "trivy": {
+      "version": "0.55.0",
+      "docker_image": "aquasec/trivy:0.55.0",
+      "binary_url_linux_amd64": "https://github.com/aquasecurity/trivy/releases/download/v0.55.0/trivy_0.55.0_Linux-64bit.tar.gz",
+      "sha256_binary_linux_amd64": "placeholder-update-before-release",
+      "license": "Apache-2.0"
+    },
+    "semgrep": {
+      "version": "1.85.0",
+      "docker_image": "semgrep/semgrep:1.85.0",
+      "license": "LGPL-2.1 (engine), Semgrep Rules License v1.0 (community rules)"
+    },
+    "nuclei": {
+      "version": "3.3.0",
+      "docker_image": "projectdiscovery/nuclei:v3.3.0",
+      "binary_url_linux_amd64": "https://github.com/projectdiscovery/nuclei/releases/download/v3.3.0/nuclei_3.3.0_linux_amd64.zip",
+      "sha256_binary_linux_amd64": "placeholder-update-before-release",
+      "license": "MIT"
+    }
+  }
+}
